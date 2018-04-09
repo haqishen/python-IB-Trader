@@ -1,7 +1,7 @@
 # coding:utf-8
 from datetime import datetime, timedelta
 
-root_dir = '/Users/haqishen/trade_ibapi/' 
+root_dir = '/Users/haqishen/trader_ibapi/' 
 
 symbols = ['QQQ']
 black_list = []
