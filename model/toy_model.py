@@ -2,7 +2,7 @@
 this is a toy model only for demonstrating the workflow of this repo.
 '''
 
-class Modle():
+class Model():
 
 	def __init__(self, symbols, cash, app):
 		self.symbols = symbols,

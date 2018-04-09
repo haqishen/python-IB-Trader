@@ -6,7 +6,7 @@ main function
 from util.trade import IBClientApp
 from util.watcher import Watcher
 import config
-from model.toy_model import Modle
+from model.toy_model import Model
 from datetime import datetime, timedelta
 import time
 
@@ -22,7 +22,7 @@ def main():
     watcher.begin() 
 
     # load model
-    model = Modle(symbols = config.symbols,
+    model = Model(symbols = config.symbols,
                   cash = config.cash,
                   app = app)
 

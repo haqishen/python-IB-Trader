@@ -1,0 +1,15 @@
+# macOS
+.DS_store
+.AppleDouble
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Data
+*.csv
+/log/
+/data/
+/tradeConfirmations/
