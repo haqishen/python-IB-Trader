@@ -37,7 +37,7 @@ def main():
         # close position
         if cur_time > config.RTH_end:
             print('| Stop!')、
-            model.stop()
+            model.stop(watcher.data)
             info = app.getAccInfo()
             break
 
