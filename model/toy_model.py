@@ -32,7 +32,7 @@ class Model():
 			initiate(self, cur_price)
 		else:
 			for symbol in cur_price.keys():
-				if cur_price[symbol] > self.Open[symbol] * 1.01 and Flag != 1:
+				if cur_price[symbol] > (self.Open[symbol] * 1.01) and Flag[symbol] != 1:
 					quantity = self.cash[symbol] // cur_price[symbol]
 					app.sendOrderToServer(symbol, quantity)
 					self.Hold[symbol] = quantity
