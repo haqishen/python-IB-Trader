@@ -3,30 +3,33 @@
 main function
 '''
 
-from util.trade import IBClientApp
-from util.watcher import Watcher
-import config
-from model.toy_model import Model
-from datetime import datetime, timedelta
 import time
+import config
+from util.watcher import Watcher
+from model.toy_model import Model
+from util.trade import IBClientApp
+from datetime import datetime
+
 
 def main():
 
     # app for sending orders
-    app = IBClientApp(config.IP, config.port, clientId=1)
+    app = IBClientApp(config.IP, config.port, 1)
     app.getConnection()
 
     # app for watching market price
-    watcher = Watcher(config.IP, config.port, clientId=2, config.symbols)
+    watcher = Watcher(config.IP, config.port, 2, config.symbols)
     watcher.getConnection()
-    watcher.begin() 
+    watcher.begin()
 
     # load model
-    model = Model(symbols = config.symbols,
-                  cash = config.cash,
-                  app = app)
+    model = Model(
+        symbols=config.symbols,
+        cash=config.cash,
+        app=app
+    )
 
-    # 主循环
+    # main iteration, run every 5 secs
     is_begin = False
     t = time.time()
     while True:
@@ -34,11 +37,12 @@ def main():
         # get current time
         cur_time = datetime.today()
 
-        # close position
+        # close position and exit the program
         if cur_time > config.RTH_end:
-            print('| Stop!')、
+            print('| Stop!')
             model.stop(watcher.data)
             info = app.getAccInfo()
+            print(info)
             break
 
         # run the model 5 seconds a time if is in Regular Trading Hours.
@@ -48,18 +52,10 @@ def main():
                 print('| Begin!')
             model.run(watcher.data, cur_time)
 
-        while time.time()-t < 5:
+        while time.time() - t < 5:
             time.sleep(0.0002)
-        t+=5
+        t += 5
 
 
-
-if __name__ == '__main__':  
-
+if __name__ == '__main__':
     main()
-
-
-
-
-
-    

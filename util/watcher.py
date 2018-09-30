@@ -1,19 +1,14 @@
 # coding:utf-8
 import sys
-sys.path.append('../')
-from ibapi import (decoder, reader, comm) # read message returned from API
-from ibapi.common import * # TickerID
-from ibapi.ticktype import *
-from ibapi.utils import iswrapper
+import time
 import util
 import config
-import datetime
-import time
 from threading import Thread
-from pdb import set_trace as st
+from ibapi.utils import iswrapper
 
 
 class Watcher(util.IBWrapper, util.IBClient):
+
     def __init__(self, IP, port, clientId, symbols):
         util.IBWrapper.__init__(self)
         util.IBClient.__init__(self, wrapper=self)
@@ -24,7 +19,7 @@ class Watcher(util.IBWrapper, util.IBClient):
         self.data = {}
         self.Open = {}
         self.High = {}
-        self.Low  = {}
+        self.Low = {}
         self.access = []
         self.initialize()
 
@@ -34,16 +29,15 @@ class Watcher(util.IBWrapper, util.IBClient):
     def initialize(self):
         for symbol in self.symbols:
             self.High[symbol] = -1.0
-            self.Low[symbol]  = 9999.
+            self.Low[symbol] = 9999.
 
     @iswrapper
-    def tickPrice(self, reqId: TickerId, tickType: TickType, price: float,
-                  attrib: TickAttrib):
+    def tickPrice(self, reqId, tickType, price, attrib):
         super().tickPrice(reqId, tickType, price, attrib)
 
         symbol = self.symbols[reqId]
 
-        if symbol not in self.access and tickType in range(1,5):
+        if symbol not in self.access and tickType in range(1, 5):
             print('| %s real-time data accessed!' % symbol)
             self.access.append(symbol)
         if tickType == 4:
@@ -54,28 +48,34 @@ class Watcher(util.IBWrapper, util.IBClient):
                 self.Low[symbol] = price
 
     @iswrapper
-    def tickSize(self, reqId: TickerId, tickType: TickType, size: int):
+    def tickSize(self, reqId, tickType, size):
         super().tickSize(reqId, tickType, size)
 
     def begin(self):
         for tickerId in range(len(self.symbols)):
             symbol = self.symbols[tickerId]
 
-            contract = util.createContract(symbol, 'STK', 'SMART', 'SMART' 'USD')
+            contract = util.createContract(
+                symbol,
+                'STK',
+                'SMART',
+                'SMART',
+                'USD'
+            )
             self.reqMktData(tickerId, contract, "", False, False, [])
 
-        thread = Thread(target = self.run)
+        thread = Thread(target=self.run)
         thread.start()
         setattr(self, "_thread", thread)
 
 
-## DEBUG
+# FOR DEBUG
 if __name__ == '__main__':
-    
+
+    sys.path.append('../')
     watcher = Watcher(config.IP, config.port, 2351, config.symbols)
     watcher.getConnection()
     watcher.begin()
-    ###
 
     for i in range(50):
         # watcher.getMessage()
