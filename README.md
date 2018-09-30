@@ -1,8 +1,10 @@
 # trader_ibapi
 
-this is a very simple automated trader for American stock market using Interactive Brokers' API (ibapi).
+this is minimal automated trader for American stock market using Interactive Brokers' API (ibapi).
 
 ## dependencies
+
+Interactive Brokers' account!
 
 * ibapi v9.73.05
 * IB Gateway 964 or later
@@ -11,7 +13,6 @@ this is a very simple automated trader for American stock market using Interacti
 ## usage
 
 * login IB Gateway.
-* implement your model for trading.
+* implement your model for trading under `model/`.
 * setting `config.py`
-* run `main.py`
-
+* run `main.py` before market open everyday
