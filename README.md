@@ -1,4 +1,4 @@
-# trader_ibapi
+# IB-Trader
 
 this is minimal automated trader for American stock market using Interactive Brokers' API (ibapi).
 
