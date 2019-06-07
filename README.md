@@ -1,6 +1,6 @@
 # python-IB-Trader
 
-this is a minimal automated trader for American stock market using Interactive Brokers python API (ibapi)
+this is a minimal automated trader for American stock using **official** Interactive Brokers python API (ibapi)
 
 ## dependencies
 
